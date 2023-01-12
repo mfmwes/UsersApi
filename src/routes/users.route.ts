@@ -1,38 +1,20 @@
 import { Router, Response, Request } from "express";
-import { StatusCodes } from "http-status-codes";
+import getUsers from "../controllers/users/getUsers";
+import getUserByID from "../controllers/users/getUserByID";
+import createUser from "../controllers/users/createUser";
+import updateUser from "../controllers/users/updateUser";
+import deleteUser from "../controllers/users/deleteUser";
 
 const usersRoute = Router();
 
-usersRoute.get("/users", (req: Request, res: Response) => {
-  const users = [
-    {
-      userName: "John",
-    },
-  ];
-  res.status(StatusCodes.OK).json(users);
-});
+usersRoute.get("/users", getUsers);
 
-usersRoute.get("/users/:uuid", (req: Request, res: Response) => {
-    const uuid = req.params.uuid;
-    res.status(StatusCodes.OK).send({uuid});
-  });
+usersRoute.get("/users/:uuid", getUserByID);
 
-usersRoute.post('/users', (req: Request, res: Response) => {
-    const newUser = req.body
-    res.status(StatusCodes.CREATED).send(newUser)
-});
+usersRoute.post("/users", createUser);
 
-usersRoute.put('/users/:uuid', (req: Request, res: Response) => {
-    const uuid = req.params.uuid
-    const modifiedUser = req.body
-    modifiedUser.uuid = uuid
+usersRoute.put("/users/:uuid", updateUser);
 
-    res.status(StatusCodes.OK).send(modifiedUser)
-});
-
-usersRoute.delete('/users/:uuid', (req:Request, res:Response) => {
-    const uuid = req.params.uuid
-    res.sendStatus(StatusCodes.OK);
-});
+usersRoute.delete("/users/:uuid", deleteUser);
 
 export default usersRoute;
